@@ -6,40 +6,23 @@ receivers = 'scorpioncarr1@gmail.com'
 
 filename = "/Users/nathanael/Google Drive/ProgramDatabase/Python_SignIn/StudentCheckin_2017-07-16.txt"
 
-# Read a file and encode it into base64 format
-fo = open(filename, "rb")
-filecontent = fo.read()
-encodedcontent = base64.b64encode(filecontent)  # base64
+fileopen = open(filename, "r")
 
-body = """This is a test email to send an attachement."""
-
-marker = "AUNIQUEMARKER"
-
-# Define the main headers.
-part1 = """From: scorpioncarr1@gmail.com
-To: Nathanael Carr <scorpioncarr1@gmail.com>
-Subject: Sending Attachement
+message = """From: Nathanael Carr <scorpioncarr1@gmail.com>
+To: To Person <to@todomain.com>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary=%s
---%s
-""" % (marker, marker)
+Content-type: text/html
+Subject: e-mail test
 
-# Define the message action
-part2 = """Content-Type: text/plain
-Content-Transfer-Encoding:8bit
+Nathanael,
+
+<br>This is an e-mail message to be sent in HTML format
+
+<br>This is HTML message.
+<h1>This is headline.</h1>
+<br><br>
 %s
---%s
-""" % (body,marker)
-
-# Define the attachment section
-part3 = """Content-Type: multipart/mixed; name=\"%s\"
-Content-Transfer-Encoding:base64
-Content-Disposition: attachment; filename=%s
-
-%s
---%s--
-""" % (filename, filename, encodedcontent, marker)
-message = part1 + part2 + part3
+""" % (fileopen.read())
 
 try:
     smtpObj = smtplib.SMTP('smtp.gmail.com', 587, 'localhost')
